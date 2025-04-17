@@ -1,6 +1,6 @@
 {
     "name": "gemini-live-web-sdk",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "SDK for interacting with the Gemini Live API for real-time audio and video communication",
     
     "main": "dist/index.js",

@@ -62,4 +62,4 @@ sdk.toggleWebcam();
 
 ## License
 
-MIT
+This project is licensed under the Apache License.
