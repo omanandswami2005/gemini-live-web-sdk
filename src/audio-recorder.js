@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import EventEmitter3 from "eventemitter3";
 import { audioContext } from "./utils.js";
 import { createWorkletFromSrc, registeredWorklets } from "./all_audio_processing/audioworklet-registry.js";
 import AudioRecordingWorklet from "./all_audio_processing/outgoing_audio_processing/audio-recording-worklet.js";

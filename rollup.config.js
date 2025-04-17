@@ -15,9 +15,7 @@ export default [
     plugins: [
       resolve({ browser: true }),
       commonjs(),
-      terser()
-    ],
-    external: []
+    ]
   },
   // ES Module build
   {
@@ -31,8 +29,20 @@ export default [
     plugins: [
       resolve({ browser: true }),
       commonjs(),
-      terser()
-    ],
-    external: []
+    ]
+  },
+  // UMD build
+  {
+    input: 'src/index.js',
+    output: {
+      file: 'dist/index.umd.js',
+      format: 'umd',
+      name: 'GeminiLiveWebSDK',
+      sourcemap: true
+    },
+    plugins: [
+      resolve({ browser: true }),
+      commonjs(),
+    ]
   }
 ];
