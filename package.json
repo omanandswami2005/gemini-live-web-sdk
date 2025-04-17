@@ -1,0 +1,48 @@
+{
+    "name": "gemini-live-web-sdk",
+    "version": "1.0.0",
+    "description": "SDK for interacting with the Gemini Live API for real-time audio and video communication",
+    
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "rollup -c",
+        "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+        "gemini",
+        "live",
+        "sdk",
+        "real-time",
+        "web",
+        "audio",
+        "video",
+        "websocket"
+    ],
+    "author": "Omanand Swami",
+    "license": "MIT",
+    "dependencies": {
+        "eventemitter3": "^5.0.1",
+        "socket.io-client": "^4.7.5"
+    },
+    "devDependencies": {
+        "rollup": "^3.29.4",
+        "@rollup/plugin-commonjs": "^25.0.7",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4"
+    },
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/omanandswami2005/gemini-live-web-sdk.git"
+    },
+    "bugs": {
+        "url": "https://github.com/omanandswami2005/gemini-live-web-sdk/issues"
+    },
+    "homepage": "https://github.com/omanandswami2005/gemini-live-web-sdk#readme",
+    "browser": true,
+    "type": "module"
+}
