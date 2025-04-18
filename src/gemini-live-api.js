@@ -8,6 +8,7 @@ export default class GeminiLiveAPI {
    */
   constructor(endpoint, token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.f9gSOnolW0uUbQsD3G7XCEHxxSqn29Ao3b1V_k5jscA" ) {
     // Socket.IO connection setup
+  try{
     this.socket = io(endpoint, {
       auth: { token },
       transports: ["websocket"],
@@ -16,6 +17,10 @@ export default class GeminiLiveAPI {
       reconnectionDelay: 1000,
       timeout: 20000
     });
+  }catch(error){
+    console.error("Error connecting to Socket.IO server:", error.message);
+    throw new Error("Socket.IO connection failed: " + error.message);
+  }
 
     // Event handlers
     this.onSetupComplete = () => { };
@@ -96,6 +101,18 @@ export default class GeminiLiveAPI {
                 this.onError('Error parsing response: ' + error.message);
               }
     });
+
+    
+      // Handle connection errors
+      this.socket.on('connect_error', (error) => {
+        const errorMessage = `WebSocket connection failed (Please check your server): ${error.message}`;
+        if (this.onError) this.onError(new Error(errorMessage));
+      });
+
+      this.socket.on('connect_timeout', () => {
+        const errorMessage = 'WebSocket connection timed out';
+        if (this.onError) this.onError(new Error(errorMessage));
+      });
     
     this.socket.on("error", (error) => {
       console.error("Socket error:", error);

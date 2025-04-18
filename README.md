@@ -44,7 +44,7 @@ Use `import` with `type="module"` in HTML or Node.js:
 ```html
 <script type="module">
   import { GeminiLiveWebSDK } from 'https://cdn.jsdelivr.net/npm/gemini-live-web-sdk/dist/gemini-live-web-sdk.mjs';
-  const sdk = new GeminiLiveWebSDK('http://localhost:8080', <Auth_Token>);
+  const sdk = new GeminiLiveWebSDK('http://localhost:8080', "<Auth_Token>");
 </script>
 ```
 
@@ -55,7 +55,7 @@ Use a `<script>` tag for direct browser inclusion:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/gemini-live-web-sdk/dist/gemini-live-web-sdk.umd.js"></script>
 <script>
-  const sdk = new window.GeminiLiveWebSDK.GeminiLiveWebSDK('http://localhost:8080', <Auth_Token>);
+  const sdk = new window.GeminiLiveWebSDK.GeminiLiveWebSDK('http://localhost:8080', "<Auth_Token>");
 </script>
 ```
 
@@ -67,7 +67,7 @@ Require the package in Node.js:
 
 ```javascript
 const { GeminiLiveWebSDK } = require('gemini-live-web-sdk');
-const sdk = new GeminiLiveWebSDK('http://localhost:8080', <Auth_Token>);
+const sdk = new GeminiLiveWebSDK('http://localhost:8080', "<Auth_Token>");
 ```
 
  *Note* : ***CommonJS is primarily for Node.js and may not work directly in browsers without a bundler.***
@@ -80,248 +80,7 @@ The SDK is designed for browser environments, interacting with a Gemini Live API
 
 This HTML example creates a web application with controls for audio recording, webcam, screen sharing, muting, and volume visualization.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gemini Live Web SDK Test</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    video {
-      border: 1px solid #ccc;
-      width: 320px;
-      height: 240px;
-      background: #000;
-    }
-    progress {
-      width: 200px;
-      display: block;
-      margin: 10px 0;
-    }
-    button {
-      margin: 5px;
-      padding: 8px 16px;
-      cursor: pointer;
-    }
-    button:disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-    #status {
-      margin: 10px 0;
-      font-weight: bold;
-    }
-    #error {
-      color: red;
-      margin: 10px 0;
-    }
-    .control-group {
-      margin: 20px 0;
-    }
-  </style>
-</head>
-<body>
-  <h1>Gemini Live Web SDK Test</h1>
-  <div id="status">Disconnected</div>
-  <div id="error"></div>
-
-  <div class="control-group">
-    <video id="videoPreview" autoplay playsinline></video>
-    <div>
-      <label>User Input Volume:</label>
-      <progress id="volume-meter-user" max="100" value="0"></progress>
-    </div>
-    <div>
-      <label>Incoming Voice Volume:</label>
-      <progress id="volume-meter-stream" max="100" value="0"></progress>
-    </div>
-  </div>
-
-  <div class="control-group">
-    <button id="start" onclick="startRecording()" disabled>Start Recording</button>
-    <button id="stop" onclick="stopRecording()" disabled>Stop Recording</button>
-    <button id="mute" onclick="toggleMute()" disabled>Mute</button>
-    <button id="webcam" onclick="toggleWebcam()">Toggle Webcam</button>
-    <button id="screen" onclick="toggleScreen()">Toggle Screen Share</button>
-    <button id="switch-camera" onclick="switchCamera()" disabled>Switch Camera</button>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/gemini-live-web-sdk/dist/gemini-live-web-sdk.umd.js"></script>
-
-  <script>
-    // DOM elements
-    const statusDiv = document.getElementById('status');
-    const errorDiv = document.getElementById('error');
-    const startButton = document.getElementById('start');
-    const stopButton = document.getElementById('stop');
-    const muteButton = document.getElementById('mute');
-    const webcamButton = document.getElementById('webcam');
-    const screenButton = document.getElementById('screen');
-    const switchCameraButton = document.getElementById('switch-camera');
-
-    // Error display
-    function showError(message) {
-      errorDiv.textContent = message;
-      setTimeout(() => {
-        errorDiv.textContent = '';
-      }, 5000);
-    }
-
-    // Initialize SDK
-    let sdk;
-    try {
-      // Workaround for v1.0.2; remove if using default export
-      const SDKClass = window.GeminiLiveWebSDK.GeminiLiveWebSDK;
-      sdk = new SDKClass('http://localhost:8080', <Auth_Token>, {
-        sampleRate: 24000
-      });
-    } catch (error) {
-      showError(`SDK Initialization Failed: ${error.message}`);
-      return;
-    }
-
-    // Set video element
-    try {
-      sdk.setVideoElement(document.getElementById('videoPreview'));
-    } catch (error) {
-      showError(`Video Element Setup Failed: ${error.message}`);
-      return;
-    }
-
-    // Event handlers
-    sdk.on('setupComplete', () => {
-      statusDiv.textContent = 'Connected';
-      startButton.disabled = false;
-      webcamButton.disabled = false;
-      screenButton.disabled = false;
-      console.log('Connected to server');
-    });
-
-    sdk.on('recordingStarted', () => {
-      statusDiv.textContent = 'Recording';
-      startButton.disabled = true;
-      stopButton.disabled = false;
-      muteButton.disabled = false;
-      switchCameraButton.disabled = !sdk.mediaHandler?.isWebcamActive;
-      try {
-        sdk.createUserVolumeMeter(document.getElementById('volume-meter-user'));
-        sdk.createStreamVolumeMeter(document.getElementById('volume-meter-stream'));
-      } catch (error) {
-        showError(`Volume Meter Setup Failed: ${error.message}`);
-      }
-      console.log('Recording started');
-    });
-
-    sdk.on('recordingStopped', () => {
-      statusDiv.textContent = 'Connected';
-      startButton.disabled = false;
-      stopButton.disabled = true;
-      muteButton.disabled = true;
-      switchCameraButton.disabled = true;
-      muteButton.textContent = 'Mute';
-      console.log('Recording stopped');
-    });
-
-    sdk.on('audioReceived', () => {
-      console.log('Received audio from server');
-    });
-
-    sdk.on('toolCall', (toolCall) => {
-      console.log('Tool call received:', toolCall);
-      if (toolCall.function === 'get_weather') {
-        sdk.sendToolResponse({
-          function: 'get_weather',
-          result: { temperature: 25, condition: 'sunny' }
-        });
-      }
-    });
-
-    sdk.on('muteToggled', (isMuted) => {
-      muteButton.textContent = isMuted ? 'Unmute' : 'Mute';
-      console.log(`Microphone ${isMuted ? 'muted' : 'unmuted'}`);
-    });
-
-    sdk.on('error', (error) => {
-      showError(`SDK Error: ${error.message}`);
-      console.error('SDK Error:', error);
-    });
-
-    sdk.on('close', () => {
-      statusDiv.textContent = 'Disconnected';
-      startButton.disabled = true;
-      stopButton.disabled = true;
-      muteButton.disabled = true;
-      webcamButton.disabled = true;
-      screenButton.disabled = true;
-      switchCameraButton.disabled = true;
-      console.log('Connection closed');
-    });
-
-    // Button handlers
-    function startRecording() {
-      try {
-        sdk.startRecording();
-      } catch (error) {
-        showError(`Start Recording Failed: ${error.message}`);
-      }
-    }
-
-    function stopRecording() {
-      try {
-        sdk.stopRecording();
-      } catch (error) {
-        showError(`Stop Recording Failed: ${error.message}`);
-      }
-    }
-
-    function toggleMute() {
-      try {
-        sdk.toggleMute();
-      } catch (error) {
-        showError(`Toggle Mute Failed: ${error.message}`);
-      }
-    }
-
-    function toggleWebcam() {
-      try {
-        sdk.toggleWebcam();
-        switchCameraButton.disabled = !sdk.mediaHandler?.isWebcamActive;
-      } catch (error) {
-        showError(`Toggle Webcam Failed: ${error.message}`);
-      }
-    }
-
-    function toggleScreen() {
-      try {
-        sdk.toggleScreen();
-      } catch (error) {
-        showError(`Toggle Screen Share Failed: ${error.message}`);
-      }
-    }
-
-    function switchCamera() {
-      try {
-        sdk.switchCamera();
-      } catch (error) {
-        showError(`Switch Camera Failed: ${error.message}`);
-      }
-    }
-
-    // Cleanup on page unload
-    window.addEventListener('beforeunload', () => {
-      sdk.destroy();
-    });
-  </script>
-</body>
-</html>
-```
+Check-out the [URL ](https://stackblitz.com/edit/stackblitz-starters-6fcoinwx?file=index.html "Gemini Live Web SDK Stackblitz")for example usage code
 
 ### Setup Instructions
 
@@ -331,8 +90,9 @@ This HTML example creates a web application with controls for audio recording, w
    npm install gemini-live-web-sdk
 ```
 
-1. **Copy the HTML** : Save the above code as `index.html` in your project directory.
-2. **Serve the Application** : Use a local server to meet browser security requirements:
+1. **Copy the HTML** : Save the above code from stackblitz in `index.html` in your project directory.
+2. **Setup Rerspective WebSocket Server** : `<To Be released soon...>`
+3. **Serve the Application** : Use a local server to meet browser security requirements:
 
 ```bash
    npm install -g http-server
