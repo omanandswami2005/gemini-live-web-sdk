@@ -1,5 +1,4 @@
-import { registeredWorklets } from "./all_audio_processing/audioworklet-registry.js";
-
+import { registeredWorklets } from "../src/all_audio_processing/audioworklet-registry.js";
 export class VolumeMeter {
   constructor(audioContext, meterElement) {
     this.audioContext = audioContext;
@@ -16,7 +15,7 @@ export class VolumeMeter {
     }
     const registry = registeredWorklets.get(this.audioContext);
     if (!registry[workletName]) {
-      const workletUrl = new URL("./all_audio_processing/volume_meter_processing/volume-meter-worklet.js", import.meta.url).href;
+      const workletUrl = new URL("../src/volume-meter-worklet.js", import.meta.url).href;
       console.log(`Loading worklet for ${this.meterElement.id}: ${workletUrl}`);
       await this.audioContext.audioWorklet.addModule(workletUrl);
       registry[workletName] = true;
@@ -28,7 +27,7 @@ export class VolumeMeter {
       const percentage = Math.min(100, Math.max(0, Math.floor(volume * 700)));
       this.meterElement.value = percentage;
       // Log volume updates for debugging
-    //   console.log(`Volume update for ${this.meterElement.id}: ${percentage}%`);
+      //   console.log(`Volume update for ${this.meterElement.id}: ${percentage}%`);
     };
     this.processor = workletNode;
   }

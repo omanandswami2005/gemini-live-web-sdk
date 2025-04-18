@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 import EventEmitter3 from "eventemitter3";
-import { audioContext } from "./utils.js";
-import { createWorkletFromSrc, registeredWorklets } from "./all_audio_processing/audioworklet-registry.js";
-import AudioRecordingWorklet from "./all_audio_processing/outgoing_audio_processing/audio-recording-worklet.js";
+import { audioContext } from "../../utils.js";
+import { createWorkletFromSrc, registeredWorklets } from "../audioworklet-registry.js";
+import AudioRecordingWorklet from "./audio-recording-worklet.js";
 
 function arrayBufferToBase64(buffer) {
   var binary = "";
@@ -45,7 +45,7 @@ export class AudioRecorder extends EventEmitter3 {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       throw new Error("Could not request user media");
     }
-  
+
     this.starting = new Promise(async (resolve, reject) => {
       try {
         this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -54,14 +54,14 @@ export class AudioRecorder extends EventEmitter3 {
           throw new Error("Failed to initialize audio context");
         }
         this.source = this.audioContext.createMediaStreamSource(this.stream);
-  
+
         const workletName = "audio-recorder-worklet";
         const workletSrc = AudioRecordingWorklet;
-  
+
         if (!registeredWorklets.has(this.audioContext)) {
           registeredWorklets.set(this.audioContext, {});
         }
-  
+
         const registry = registeredWorklets.get(this.audioContext);
         if (!registry[workletName]) {
           const src = createWorkletFromSrc(workletName, workletSrc);
@@ -71,19 +71,19 @@ export class AudioRecorder extends EventEmitter3 {
             handlers: []
           };
         }
-  
+
         this.recordingWorklet = registry[workletName].node;
-  
+
         this.recordingWorklet.port.onmessage = async (ev) => {
           const arrayBuffer = ev.data.data.int16arrayBuffer;
-  
+
           if (arrayBuffer) {
             const arrayBufferString = arrayBufferToBase64(arrayBuffer);
             this.emit("data", arrayBufferString);
           }
         };
         this.source.connect(this.recordingWorklet);
-  
+
         this.recording = true;
         resolve();
         this.starting = null;
@@ -92,7 +92,7 @@ export class AudioRecorder extends EventEmitter3 {
         this.starting = null;
       }
     });
-  
+
     return this.starting;
   }
 

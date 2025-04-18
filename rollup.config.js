@@ -7,7 +7,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/index.js',
+      file: 'dist/gemini-live-web-sdk.js',
       format: 'cjs',
       exports: 'named',
       sourcemap: true
@@ -15,13 +15,14 @@ export default [
     plugins: [
       resolve({ browser: true }),
       commonjs(),
+      terser()
     ]
   },
   // ES Module build
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/index.mjs',
+      file: 'dist/gemini-live-web-sdk.mjs',
       format: 'esm',
       exports: 'named',
       sourcemap: true
@@ -29,20 +30,24 @@ export default [
     plugins: [
       resolve({ browser: true }),
       commonjs(),
+      terser()
     ]
   },
   // UMD build
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/index.umd.js',
+      file: 'dist/gemini-live-web-sdk.umd.js',
       format: 'umd',
-      name: 'GeminiLiveWebSDK',
+      name: 'GeminiLiveWebSDK', // Global variable name
+      exports: 'named',
+      
       sourcemap: true
     },
     plugins: [
       resolve({ browser: true }),
       commonjs(),
+      terser()
     ]
   }
 ];

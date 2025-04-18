@@ -1,18 +1,17 @@
 {
     "name": "gemini-live-web-sdk",
-    "version": "1.0.2",
+    "version": "1.0.8",
     "description": "SDK for interacting with the Gemini Live API for real-time audio and video communication",
     
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "browser": "dist/index.umd.js",
-    "types": "dist/index.d.ts",
+    "main": "dist/gemini-live-web-sdk.js",
+    "module": "dist/gemini-live-web-sdk.mjs",
+    "browser": "dist/gemini-live-web-sdk.umd.js",
+    "types": "dist/gemini-live-web-sdk.d.ts",
     "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      
-      "browser": "./dist/index.umd.js"
+      "import": "./dist/gemini-live-web-sdk.mjs",
+      "require": "./dist/gemini-live-web-sdk.js",
+      "browser": "./dist/gemini-live-web-sdk.umd.js"
     }
   },
     "scripts": {
