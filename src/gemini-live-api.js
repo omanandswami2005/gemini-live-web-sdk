@@ -108,7 +108,7 @@ export default class GeminiLiveAPI {
     });
 
     this.socket.on("transcription", (message) => {
-      console.log("Transcription message:", message.text);
+      // console.log("Transcription message:", message.text);
       if (message.text) {
         this.transcriptionBuffer += message.text;
         this.onTranscriptionUpdate(this.transcriptionBuffer);
