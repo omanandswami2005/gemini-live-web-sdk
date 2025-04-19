@@ -1,7 +1,10 @@
-
 # Gemini Live Web SDK
 
 The `gemini-live-web-sdk` is a JavaScript library for integrating real-time audio and video streaming with the Gemini Live API. It provides features like audio recording, webcam and screen sharing, volume visualization, and tool call handling, making it ideal for building interactive web applications with voice and video capabilities.
+
+## [Click Here for StackBlitz Project](https://stackblitz.com/edit/stackblitz-starters-6fcoinwx?file=index.html) (full-stack Example Use)
+
+Note: Add Gemini API KEY in .env file😅
 
 ## Features
 
