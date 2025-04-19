@@ -1,19 +1,18 @@
 {
     "name": "gemini-live-web-sdk",
-    "version": "1.0.10",
+    "version": "1.0.18",
     "description": "SDK for interacting with the Gemini Live API for real-time audio and video communication",
-    
     "main": "dist/gemini-live-web-sdk.js",
     "module": "dist/gemini-live-web-sdk.mjs",
     "browser": "dist/gemini-live-web-sdk.umd.js",
     "types": "dist/gemini-live-web-sdk.d.ts",
     "exports": {
-    ".": {
-      "import": "./dist/gemini-live-web-sdk.mjs",
-      "require": "./dist/gemini-live-web-sdk.js",
-      "browser": "./dist/gemini-live-web-sdk.umd.js"
-    }
-  },
+        ".": {
+            "import": "./dist/gemini-live-web-sdk.mjs",
+            "require": "./dist/gemini-live-web-sdk.js",
+            "browser": "./dist/gemini-live-web-sdk.umd.js"
+        }
+    },
     "scripts": {
         "build": "rollup -c",
         "prepublishOnly": "npm run build"
@@ -29,16 +28,17 @@
         "websocket"
     ],
     "author": "Omanand Swami",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "dependencies": {
         "eventemitter3": "^5.0.1",
+        "rollup-plugin-copy": "^3.5.0",
         "socket.io-client": "^4.7.5"
     },
     "devDependencies": {
-        "rollup": "^3.29.4",
         "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-node-resolve": "^15.2.3",
-        "@rollup/plugin-terser": "^0.4.4"
+        "@rollup/plugin-terser": "^0.4.4",
+        "rollup": "^3.29.4"
     },
     "files": [
         "dist"

@@ -1,4 +1,4 @@
-const SMOOTHING_FACTOR = 0.8;
+`const SMOOTHING_FACTOR = 0.8;
 const FRAME_PER_SECOND = 60;
 const FRAME_INTERVAL = 1 / FRAME_PER_SECOND;
 
@@ -36,4 +36,4 @@ class VolumeMeter extends AudioWorkletProcessor {
   }
 }
 
-registerProcessor("volume-meter", VolumeMeter);
+registerProcessor("volume-meter", VolumeMeter);`

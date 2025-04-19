@@ -1,4 +1,4 @@
-import { registeredWorklets } from "../src/all_audio_processing/audioworklet-registry.js";
+import { registeredWorklets } from "../src/audioworklet-registry.js";
 export class VolumeMeter {
   constructor(audioContext, meterElement) {
     this.audioContext = audioContext;
@@ -15,7 +15,8 @@ export class VolumeMeter {
     }
     const registry = registeredWorklets.get(this.audioContext);
     if (!registry[workletName]) {
-      const workletUrl = new URL("../src/volume-meter-worklet.js", import.meta.url).href;
+      const workletUrl = new URL("https://cdn.jsdelivr.net/npm/gemini-live-web-sdk/dist/volume-meter-worklet.js").href;
+
       console.log(`Loading worklet for ${this.meterElement.id}: ${workletUrl}`);
       await this.audioContext.audioWorklet.addModule(workletUrl);
       registry[workletName] = true;

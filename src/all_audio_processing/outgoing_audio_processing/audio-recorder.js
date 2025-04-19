@@ -15,7 +15,7 @@
  */
 import EventEmitter3 from "eventemitter3";
 import { audioContext } from "../../utils.js";
-import { createWorkletFromSrc, registeredWorklets } from "../audioworklet-registry.js";
+import { createWorkletFromSrc, registeredWorklets } from "../../audioworklet-registry.js";
 import AudioRecordingWorklet from "./audio-recording-worklet.js";
 
 function arrayBufferToBase64(buffer) {

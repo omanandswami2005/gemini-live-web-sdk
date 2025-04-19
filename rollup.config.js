@@ -1,9 +1,10 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import terser from '@rollup/plugin-terser';
+import copy from 'rollup-plugin-copy';
 
 export default [
-  // CommonJS build
+  // CommonJS
   {
     input: 'src/index.js',
     output: {
@@ -15,10 +16,15 @@ export default [
     plugins: [
       resolve({ browser: true }),
       commonjs(),
-      terser()
+      terser(),
+      copy({
+        targets: [
+          { src: './volume-meter-worklet.js', dest: 'dist/' }
+        ]
+      })
     ]
   },
-  // ES Module build
+  // ESM
   {
     input: 'src/index.js',
     output: {
@@ -30,24 +36,33 @@ export default [
     plugins: [
       resolve({ browser: true }),
       commonjs(),
-      terser()
+      terser(),
+      copy({
+        targets: [
+          { src: './volume-meter-worklet.js', dest: 'dist/' }
+        ]
+      })
     ]
   },
-  // UMD build
+  // UMD
   {
     input: 'src/index.js',
     output: {
       file: 'dist/gemini-live-web-sdk.umd.js',
       format: 'umd',
-      name: 'GeminiLiveWebSDK', // Global variable name
+      name: 'GeminiLiveWebSDK',
       exports: 'named',
-      
       sourcemap: true
     },
     plugins: [
       resolve({ browser: true }),
       commonjs(),
-      terser()
+      terser(),
+      copy({
+        targets: [
+          { src: './volume-meter-worklet.js', dest: 'dist/' }
+        ]
+      })
     ]
   }
 ];

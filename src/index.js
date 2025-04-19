@@ -109,6 +109,9 @@ export class GeminiLiveWebSDK {
         this.geminiAPI.onClose = (event) => {
             this.events.emit('close', event);
         };
+        this.geminiAPI.onTranscriptionUpdate = (transcriptionText) => {
+            this.events.emit('transcriptionUpdate', transcriptionText);
+          };
     }
 
     // Set video element for webcam/screen sharing
@@ -238,7 +241,9 @@ export class GeminiLiveWebSDK {
     sendToolResponse(functionResponses) {
         this.geminiAPI.sendToolResponse(functionResponses);
     }
-
+    sendTextMessage(text) {
+        this.geminiAPI.sendTextMessage(text);
+    }
     // Event subscription
     on(event, callback) {
         this.events.on(event, callback);
