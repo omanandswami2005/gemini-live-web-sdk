@@ -22,9 +22,9 @@ export class GeminiLiveWebSDK {
         this.isRecording = false;
         this.isMuted = false;
         this.initialized = false;
-        
-    this.connectionAttempts = 0;
-    this.maxConnectionAttempts = 3;
+
+        this.connectionAttempts = 0;
+        this.maxConnectionAttempts = 3;
 
         // Component instances
         this.geminiAPI = new GeminiLiveAPI(endpoint, token);
@@ -99,19 +99,19 @@ export class GeminiLiveWebSDK {
         this.geminiAPI.onError = (error) => {
             this.connectionAttempts++;
             if (this.connectionAttempts >= this.maxConnectionAttempts) {
-              this.events.emit('error', new Error(`${error.message} (Max attempts reached)`));
+                this.events.emit('error', new Error(`${error.message} (Max attempts reached)`));
             } else {
-              this.events.emit('error', error);
+                this.events.emit('error', error);
             }
-          };
-      
+        };
+
 
         this.geminiAPI.onClose = (event) => {
             this.events.emit('close', event);
         };
         this.geminiAPI.onTranscriptionUpdate = (transcriptionText) => {
             this.events.emit('transcriptionUpdate', transcriptionText);
-          };
+        };
     }
 
     // Set video element for webcam/screen sharing
@@ -130,7 +130,7 @@ export class GeminiLiveWebSDK {
         }
         this.userVolumeMeter = new VolumeMeter(this.audioRecorder.audioContext, progressElement);
         this.userVolumeMeter.attachToSource(this.audioRecorder.source);
-        
+
     }
 
     createStreamVolumeMeter(progressElement) {
