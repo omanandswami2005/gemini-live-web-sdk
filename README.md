@@ -64,16 +64,16 @@ Use a `<script>` tag for direct browser inclusion:
 
  *Note* : Access the class as `window.GeminiLiveWebSDK.GeminiLiveWebSDK` due to named export behavior.
 
-#### CommonJS (Node.js)
+#### CommonJS (Node.js/ReactJS)
 
-Require the package in Node.js:
+Require the package in Node.js/ReactJS:
 
 ```javascript
 const { GeminiLiveWebSDK } = require('gemini-live-web-sdk');
-const sdk = new GeminiLiveWebSDK('http://localhost:8080', "<Auth_Token>");
+const sdk = new GeminiLiveWebSDK('http://localhost:8080');
 ```
 
- *Note* : ***CommonJS is primarily for Node.js and may not work directly in browsers without a bundler.***
+ *Note* : ***This is primarily for React.js.***
 
 ## Usage
 
@@ -94,7 +94,7 @@ Check-out the [URL ](https://stackblitz.com/edit/stackblitz-starters-6fcoinwx?fi
 ```
 
 1. **Copy the HTML** : Save the above code from stackblitz in `index.html` in your project directory.
-2. **Setup Rerspective WebSocket Server** : `<To Be released soon...>`
+2. **Setup Rerspective WebSocket Server** :  [Check this NPM Package for server implementation](https://www.npmjs.com/package/gemini-live-ws-server "gemini-live-ws-server")
 3. **Serve the Application** : Use a local server to meet browser security requirements:
 
 ```bash
@@ -134,6 +134,7 @@ new GeminiLiveWebSDK(endpoint, token = null, options = {})
 * `toggleScreen()`: Start/stop screen sharing.
 * `switchCamera()`: Switch between available cameras.
 * `toggleMute()`: Toggle microphone mute.
+* `sendTextMessage()`: Send Text Message To AI.
 * `createUserVolumeMeter(progressElement)`: Visualize user audio input.
 * `createStreamVolumeMeter(progressElement)`: Visualize incoming audio.
 * `sendToolResponse(functionResponses)`: Respond to tool calls.
